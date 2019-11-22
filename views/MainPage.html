@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+    <head>
+        <meta charset="UTF-8">
+        <title>The Best Movie Rankings!</title> 
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link href="/stylesheets/MainStyle.css" rel="stylesheet"> 
+        <script src="/javascripts/MainController.js" type="text/javascript"></script>
+       
+    </head>
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="grid-nav">
+                <span class="navbar-brand center">
+                    <i style="font-family: cursive" > Best Movie Ranking</i></span>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <div>
+                                <a class="nav-item nav-link active" id="top-movies" href="/MainPage">
+                                    <i class='fas fa-chart-line'></i> Top Movies
+                                </a>
+                                <a class="nav-item nav-link" id="search-history" href="/HistoryPage">
+                                    <i class='fas fa-clipboard-list'></i> Search History
+                                </a>
+                            </div>
+                            
+                            <a class="nav-item nav-link" id="loginpage" href="/">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+            </nav>
+            <div id="whole-container" ng-controller="mainController">
+            <div id="movie-container">
+                <p class="list-title">TOP 5 Most Popular Movies:</p>
+                <div class="movie-list">
+                    <div class="movie" ng-repeat="p in popular">
+                        <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
+                        <center><span class="movie-title">{{p.movie_title}}</span></center>
+                    </div>
+                </div>
+                <p class="list-title">TOP 5 Most High Rating Movies:</p>
+                <div class="movie-list">
+                    <div class="movie" ng-repeat="h in highrating">
+                        <img src="{{h.poster_image_url}}" class="poster" ng-click="goInfo(h.movie_title)">
+                        <center><span class="movie-title">{{h.movie_title}}</span></center>
+                    </div>
+                </div>
+                <p class="list-title">TOP 5 Most Recent Movies:</p>
+                <div class="movie-list">
+                    <div class="movie" ng-repeat="r in recent">
+                        <img src="{{r.poster_image_url}}" class="poster" ng-click="goInfo(r.movie_title)">
+                        <center><span class="movie-title">{{r.movie_title}}</span></center>
+                    </div>
+                </div>
+                <p class="list-title">TOP 5 Movies Rated High in IMDB but Low in RT:</p>
+                <div class="movie-list">
+                    <div class="movie" ng-repeat="imdb in imdbhigh">
+                        <img src="{{imdb.poster_image_url}}" class="poster" ng-click="goInfo(imdb.movie_title)">
+                        <center><span class="movie-title">{{imdb.movie_title}}</span></center>
+                    </div>
+                </div>
+                <p class="list-title">TOP 5 Movies Rated High in RT but Low in IMDB:</p>
+                <div class="movie-list">
+                    <div class="movie" ng-repeat="rt in rthigh">
+                        <img src="{{rt.poster_image_url}}" class="poster" ng-click="goInfo(rt.movie_title)">
+                        <center><span class="movie-title">{{rt.movie_title}}</span></center>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div id="search-container">
+                <div id="search-input">
+                    <span style="color:white; font-family: cursive; font-size:20px;"> Enter the keyword here:</span>
+                     <input type="text" id="input-textfield" placeholder="Enter title, director, genre..." ng-model="username" id="name"/>
+                     <span style="color:white; font-family: cursive; font-size:20px;"> Then choose the features:</span>
+                </div>
+                <div id="search-option">
+                    <label class="container">Title
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Director
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Gerne
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Rating
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Release Year
+                      <input type="checkbox">
+                      <span class="checkmark"></span>
+                    </label>
+
+                    <button type="button" id="search-content" ng-click="search()">Search</button>
+                </div>
+
+            </div>
+            </div>
+
+    </body>
+</html>

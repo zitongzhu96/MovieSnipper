@@ -1,0 +1,113 @@
+body{
+    display: flex;
+    justify-content: space-between;
+}
+.heading {
+  align-self: center;
+  font-family: cursive;
+  font-size: 32px;
+  color:white;
+}
+#rightside{
+  width:680px;
+  height:723px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url(http://www.marinerpictures.com/wp-content/uploads/2013/07/13705537-grunge-background-with-copy-space-for-your-design-real-vintage-film-texture-used.jpg);
+}
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-container .input {
+  margin: 10px 0;
+  width: 270px;
+  height: 36px;
+  border: none;
+  padding: 2px 16px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  outline: none;
+
+}
+.login-container .login-button{
+    margin: 10px 10px 20px 10px;
+    width: 150px;
+    height: 36px;
+    border: none;
+    padding: 2px 16px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: #646464;
+    color: #fff;
+    cursor: pointer;
+}
+.heading > img{
+  width:80px;
+  height: 55px;
+}
+.small-img {
+  width:80px;
+  height: 55px;
+}
+
+.login-container .login-button:hover {
+  background: #4B4B4B;
+}
+
+.login-container .login-button:active {
+  background: #4B4B4B;
+}
+
+#poster-container{
+  width:600px;
+  height:723px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-repeat:no-repeat;
+  background-size: 600px;
+  animation: 20s rainbow infinite forwards;
+}
+.large-img{
+  width:135px;
+  height: 55px;
+}
+#icon-container{
+  width:295px;
+  position:fixed;
+  top:670px;
+  right:0px;
+}
+@keyframes rainbow {
+  0% { background-image: url(https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,704,1000_AL_.jpg); }
+  20% { background-image: url(https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,686,1000_AL_.jpg)}
+  40% { background-image: url(https://m.media-amazon.com/images/M/MV5BMDIzODcyY2EtMmY2MC00ZWVlLTgwMzAtMjQwOWUyNmJjNTYyXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_SY1000_SX674_AL_.jpg)}
+  60% { background-image: url(https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SY1000_CR0,0,665,1000_AL_.jpg)}
+  80% { background-image: url(https://m.media-amazon.com/images/M/MV5BMTI4NDk5NDgzN15BMl5BanBnXkFtZTcwNzU0OTk1Mw@@._V1_SY1000_CR0,0,685,1000_AL_.jpg); }
+  100% { background-image: url(https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,704,1000_AL_.jpg); }
+}
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #bbb;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #bbb;
+}
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #bbb;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #bbb;
+}
