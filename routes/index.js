@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   port:'3306',
-  password: 'longpassword',
+  password: '1996zte88199',
   database: 'cis550_proj'
 });
 
@@ -108,21 +108,44 @@ router.post('/ratingList',(req, res) => {
   });
 });
 router.post('/recentList',(req, res) => {
-  var query3='SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
+  var query3='WITH mp as \
+  (SELECT movie_title, poster_image_url \
+  FROM rotten_tomatoes_movies ORDER BY in_theaters_date \
+  LIMIT 100) \
+  SELECT movie_title, poster_image_url \
+  FROM mp \
+  ORDER BY RAND() \
+  LIMIT 5;'
   connection.query(query3, function(err, rows) {
     console.log(rows);
     res.json(rows);
   });
 });
 router.post('/imdbHighList',(req, res) => {
-  var query4='SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
+  var query4='WITH diff as \
+  (select movie_title, (rtm.audience_rating - mm.vote_average*10) as ranks \
+  from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title) \
+  select distinct diff.movie_title, rtm.poster_image_url, diff.ranks \
+  from rotten_tomatoes_movies rtm \
+  inner join movies_metadata mm on rtm.movie_title = mm.title \
+  inner join diff on diff.movie_title = rtm.movie_title \
+  order by diff.ranks ASC \
+  limit 5; '
   connection.query(query4, function(err, rows) {
     console.log(rows);
     res.json(rows);
   });
 });
 router.post('/rtHighList',(req, res) => {
-  var query5='SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
+  var query5='WITH diff as \
+  (select movie_title, (rtm.audience_rating - mm.vote_average*10) as ranks \
+  from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title) \
+  select distinct diff.movie_title, rtm.poster_image_url, diff.ranks \
+  from rotten_tomatoes_movies rtm \
+  inner join movies_metadata mm on rtm.movie_title = mm.title \
+  inner join diff on diff.movie_title = rtm.movie_title \
+  order by diff.ranks DESC \
+  limit 5; '
   connection.query(query5, function(err, rows) {
     console.log(rows);
     res.json(rows);
