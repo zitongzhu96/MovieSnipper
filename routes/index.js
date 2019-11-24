@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   port:'3306',
-  password: '1996zte88199',
+  password: 'longpassword',
   database: 'cis550_proj'
 });
 
@@ -95,12 +95,12 @@ router.post('/login', (req, res) => {
 
 router.post('/popularList',(req, res) => {
   var query1='WITH mp as \
-    (SELECT title, popularity, poster_image_url \
+    (SELECT rotten_tomatoes_movies.movie_title, poster_image_url \
     FROM movies_metadata inner join rotten_tomatoes_movies on rotten_tomatoes_movies.movie_title = movies_metadata.title \
     WHERE title <> "" \
     ORDER BY popularity DESC \
     LIMIT 100)\
-    SELECT title, poster_image_url \
+    SELECT movie_title, poster_image_url \
     FROM mp \
     ORDER BY RAND() \
     LIMIT 5;'
