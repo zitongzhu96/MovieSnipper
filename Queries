@@ -1,0 +1,201 @@
+Queries:
+
+1. Most Popular movies out of 100 randomly selected:
+-- create temporary table mp as 
+-- SELECT title, popularity, poster_image_url
+-- FROM movies_metadata inner join rotten_tomatoes_movies on rotten_tomatoes_movies.movie_title = movies_metadata.title
+-- WHERE title <> ""
+-- ORDER BY popularity DESC 
+-- LIMIT 100;
+
+-- SELECT title, popularity, poster_image_url
+-- FROM mp
+-- ORDER BY RAND()
+-- LIMIT 5;
+
+WITH mp as 
+(SELECT title, popularity, poster_image_url
+FROM movies_metadata inner join rotten_tomatoes_movies on rotten_tomatoes_movies.movie_title = movies_metadata.title
+WHERE title <> ""
+ORDER BY popularity DESC 
+LIMIT 100)
+SELECT title, poster_image_url
+FROM mp
+ORDER BY RAND()
+LIMIT 5;
+2. Most Highly Rated Movies.
+SELECT movie_title, poster_image_url FROM cis550_proj.rotten_tomatoes_movies ORDER BY audience_rating DESC LIMIT 5;
+
+
+
+Hot: Find the first 200 highest popularity movies and 200 highest vote count movies in imdb,and find the first 200 highest vote count movies in rt. Get the common movie with the highest final score: popularity*1000+vote_count+audience_count
+MongoDB:
+db.metadata.aggregate([
+	{$project:{title: 1, popularity:1,_id: 0}},
+	{$sort:{popularity: -1}},
+	{$limit:200},
+	{$out:"highPop"}
+])
+db.metadata.aggregate([
+	{$project:{title: 1, vote_count:1,_id: 0}},
+	{$sort:{vote_count: -1}},
+	{$limit:200},
+	{$out:"highVote"}
+])
+db.rotten_tomatoes_movies.aggregate([
+	{$project:{movie_title:1,audience_count: 1,_id:0}},
+	{$match:{audience_count: {$ne: ""}}},
+	{$sort:{audience_count: -1}},
+	{$limit:200},
+	{$out:"highCount"}
+])
+db.highPop.aggregate([
+	{$lookup:{localField:"title",from:"highVote",foreignField:"title",as:"imdbHigh"}},
+	{$lookup:{localField:"title",from:"highCount",foreignField:"movie_title",as:"rtHigh"}},
+	{$match:{imdbHigh:{$ne:[]}}},
+	{$match:{rtHigh:{$ne:[]}}},
+	{$unwind:"$imdbHigh"},
+	{$unwind:"$rtHigh"},
+	{$project:{title:1, finalscore:{$add:["$rtHigh.audience_count","$imdbHigh.vote_count",{$multiply:["$popularity",10]}]}}},
+	{$limit:10},
+	{$project:{title:1,finalscore:1,_id:0}}
+])
+
+SQL:
+WITH 
+highPop AS(SELECT title, popularity 
+	FROM metadata 
+	ORDER BY popularity DESC 
+	LIMIT 200),
+highVote AS(SELECT title, vote_count
+	FROM metadata
+	ORDER BY vote_count DESC
+	LIMIT 200),
+highCount AS(SELECT movie_title, audience_count
+	FROM rotten_tomatoes_movies
+	WHERE audience_count <> “”
+	ORDER BY audience_count DESC
+	LIMIT 200) 
+SELECT t1.title FROM highPop t1, highVote t2, highCount t3
+	WHERE t1.title=t2.title AND t1.title=t3.movie_title
+	ORDER BY ( t1.popularity*1000+t2.vote_count+t3.audience_count)DESC
+	LIMIT 10;
+
+Find the information of a movie (Example movie: Please Give):
+MongoDB:
+	db.rotten_tomatoes_movies.find(
+	{movie_title: "Please Give"},
+	{movie_title:1,directors:1,rating:1,cast:1,runtime_in_minitues:1, studio_name:1,poster_image_url:1, movie_info:1, _id:0}).pretty()
+SQL:
+	SELECT movie_title, directors,rating,cast, runtime_in_minutes, studio_name,poster_image_url,movie_indo
+	FROM rotten_tomatoes_movies
+	WHERE movie_title="Please Give";
+	
+Most Recent: Find the newest 10 moives 
+MongoDB: 
+	db.movies_meta.find({}, {original_title: 1, release_date:1, _id: 0}).sort({release_date : -1}).limit(10).pretty()
+SQL: 
+	SELECT original_title release_date 
+	FROM movies_metadata 
+	ORDER BY release_date DESC
+	LIMIT 10;
+
+
+Rating: Get the first 100 highest rating score movies in rt dataset which has vote count more than 1000 and first 100highest rating score movies in imdb which has vote count more than 100 then find the 10 highest score followed imdb*10+rt_score.
+MongoDB:
+db.rotten_tomatoes_movies.aggregate([
+	{$project:{movie_title:1,audience_rating:1,audience_count:1, _id:0}},
+	{$match:{audience_rating:{$ne:""},audience_count:{$gt:10000}}},
+	{$sort:{audience_rating:-1}},
+	{$limit:100},
+	{$project:{movie_title:1,audience_rating:1,_id:0}},
+	{$out:"rt_top50"}
+	])
+db.metadata.aggregate([
+	{$project:{title:1, vote_average:1, vote_count:1, _id:0}},
+	{$match:{vote_average:{$ne:""}, vote_count:{$gt:100}}},
+	{$sort:{vote_average:-1}},
+	{$limit:100},
+	{$project:{title:1,vote_average:1,_id:0}},
+	{$out:"imdb_top50"}
+	])
+db.imdb_top50.aggregate([
+	{$lookup:{localField:"title", from:"rt_top50",foreignField:"movie_title",as:"topMovies"}},
+	{$match:{topMovies:{$ne:[]}}},
+	{$unwind:"$topMovies"},
+	{$project:{title:1, finalscore:{$add:["$topMovies.audience_rating",{$multiply:["$vote_average",10]}]}}},
+	{$sort:{finalscore:-1}},
+	{$limit:10},
+	{$project:{title:1, finalscore:1,_id:0}}
+])
+
+SQL:
+WITH 
+rt_top100 AS(SELECT movie_title, audience_rating, audience_count
+	FROM rotten_tomatoes_movies
+	WHERE audience_rating<>”” AND audience_count>10000
+	ORDER BY audience_rating DESC
+	LIMIT 100),
+imdb_top100 AS(SELECT title, voote_average, vote_count
+	FROM metadata
+	WHERE vote_average<>”” AND vote_count>100
+	ORDER BY vote_average
+	LIMIT 100)
+SELECT t1.title, (t2.vote_average*10+t1.audience_rating) AS finalscore 
+	FROM rt_top100 t1, imdb_top100 t2
+	ORDER BY finalscore DESC
+	LIMIT 10;
+
+Find the top 10 movies that has high rating in rt but low in imdb  
+MongoDB:
+db.rotten_tomatoes_movies.aggregate([
+	{$match: {"audience_rating":{$ne:""}}},
+    	{$lookup:{from: "movies_metadata",localField: "movie_title",foreignField: 	"title",as: "info"}},
+	{$match: {"info":{$ne:[]}}},
+	{$project: {name: "$movie_title",diff:{$subtract:["$audience_rating",{$multiply:[	{$arrayElemAt:["$info.vote_average", 0 ] }, 10 ]}]}}},
+	{$sort:{diff:-1}},
+	{$limit:10}
+])
+SQL: 
+	With diff as (select movie_title,  rank as (rtm.audience_rating - mm.vote_average*10) from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title)
+	select movie_title, diff.rank 
+	from rotten_tomatoes_movies rtm 
+	inner join movies_metadata mm on rtm.movie_title = mm.title 	
+	inner join diff on diff.movie_title = rtm.movie_title 
+	order by diff.rank DESC
+
+Find the top 10 movies that has high rating in imdb but low in rt 
+MongoDB:
+db.rotten_tomatoes_movies.aggregate([
+	{$match: {"audience_rating":{$ne:""}}},
+    	{$lookup:{from: "movies_metadata",localField: "movie_title",foreignField: 	"title",as: "info"}},
+	{$match: {"info":{$ne:[]}}},
+	{$project: {name: "$movie_title",diff:{$subtract:["$audience_rating",{$multiply:	[{$arrayElemAt:["$info.vote_average", 0 ] }, 10 ]}]}}},
+	{$sort:{diff:1}},
+	{$limit:10}
+])
+SQL:
+	With diff as (select movie_title,rank as (rtm.audience_rating-mm.vote_average*10) 	from rotten_tomatoes_movies rtm 
+	inner join movies_metadata mm on mm.title = rtm.movie_title)
+	select movie_title, diff.rank 
+	from rotten_tomatoes_movies rtm 
+	inner join movies_metadata mm on rtm.movie_title = mm.title 
+	inner join diff on diff.movie_title = rtm.movie_title 
+	order by diff.rank ASC
+
+
+Review：Find reviews relative to the movie(Example movie: Percy Jackson & the Olympians: The Lightning Thief)
+MongoDB:
+db.rotten_tomatoes_movies.aggregate([ 
+	{$match:{movie_title:"Percy Jackson & the Olympians: The Lightning Thief"}}, 		{$lookup:		
+		{localField:"rotten_tomatoes_link",
+		from:"rotten_tomatoes_reviews",
+		foreignField:"rotten_tomatoes_link",
+		as:"reviews"}},
+	{$project:{"reviews.review_date":1,"reviews.review_content":1,_id:0}}
+SQL:
+	SELECT r.review_date, r.review_content
+	FROM rotten_tomatoes_movies m, rotten_tomatoes_reviews r
+	WHERE m.rotten_tomatoes_link=r.rotten_tomatoes_link
+	ORDER BY r.review_date DESC
+	LIMIT 5;

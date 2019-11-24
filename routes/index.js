@@ -94,16 +94,28 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/popularList',(req, res) => {
-  var query1='SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
+  var query1='WITH mp as \
+    (SELECT title, popularity, poster_image_url \
+    FROM movies_metadata inner join rotten_tomatoes_movies on rotten_tomatoes_movies.movie_title = movies_metadata.title \
+    WHERE title <> "" \
+    ORDER BY popularity DESC \
+    LIMIT 100)\
+    SELECT title, poster_image_url \
+    FROM mp \
+    ORDER BY RAND() \
+    LIMIT 5;'
   connection.query(query1, function(err, rows) {
     console.log(rows);
     res.json(rows);
   });
 });
 router.post('/ratingList',(req, res) => {
-  var query2='SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
+  var query2='with hr as (SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY audience_rating DESC LIMIT 100) \
+    SELECT movie_title, poster_image_url from hr ORDER BY RAND() \
+    LIMIT 5;'
+  // SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
   connection.query(query2, function(err, rows) {
-    console.log(rows);
+    console.log(rows);  
     res.json(rows);
   });
 });
