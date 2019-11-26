@@ -14,27 +14,28 @@
        
     </head>
     <body>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="grid-nav">
-                <span class="navbar-brand center">
-                    <i style="font-family: cursive" > Best Movie Ranking</i></span>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <div>
-                                <a class="nav-item nav-link active" id="top-movies" href="/MainPage">
-                                    <i class='fas fa-chart-line'></i> Top Movies
-                                </a>
-                                <a class="nav-item nav-link" id="search-history" href="/HistoryPage">
-                                    <i class='fas fa-clipboard-list'></i> Search History
-                                </a>
-                            </div>
-                            
-                            <a class="nav-item nav-link" id="loginpage" href="/">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="grid-nav">
+            <span class="navbar-brand center">
+                <i style="font-family: cursive" > Best Movie Ranking</i>
+            </span>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <div>
+                        <a class="nav-item nav-link active" id="top-movies" href="/MainPage">
+                            <i class="fas fa-chart-line"></i> Top Movies
+                        </a>
+                        <a class="nav-item nav-link" id="search-history" href="/HistoryPage">
+                            <i class="fas fa-clipboard-list"></i> Search History
+                        </a>
                     </div>
-            </nav>
-            <div id="whole-container" ng-controller="mainController">
+                            
+                    <a class="nav-item nav-link" id="loginpage" href="/">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div id="whole-container" ng-controller="mainController">
             <div id="movie-container">
                 <p class="list-title">TOP 5 Most Popular Movies:</p>
                 <div class="movie-list">
@@ -75,38 +76,16 @@
             
 
             <div id="search-container">
+                <div id="search-constraint">
+                    <a class="btn btn-info" id="new-constraint" ng-click="addConstraint()">
+                        <i class="fa fa-plus-square"></i>
+                        <p> Add search contents</p>
+                    </a>
+                </div>
                 <div id="search-input">
-                    <span style="color:white; font-family: cursive; font-size:20px;"> Enter the keyword here:</span>
-                     <input type="text" id="input-textfield" placeholder="Enter title, director, genre..." ng-model="username" id="name"/>
-                     <span style="color:white; font-family: cursive; font-size:20px;"> Then choose the features:</span>
                 </div>
-                <div id="search-option">
-                    <label class="container">Title
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Director
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Gerne
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Rating
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Release Year
-                      <input type="checkbox">
-                      <span class="checkmark"></span>
-                    </label>
-
-                    <button type="button" id="search-content" ng-click="search()">Search</button>
-                </div>
-
+                <button type="button" id="search-content" ng-click="search()">Search</button>
             </div>
-            </div>
-
+        </div>
     </body>
 </html>

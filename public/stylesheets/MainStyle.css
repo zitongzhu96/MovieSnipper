@@ -1,25 +1,49 @@
+/* Custom scroll bar of main page */
+::-webkit-scrollbar {
+  width: 0.5vw;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px azure; 
+  border-radius: 5px;
+}
  
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: darkgray; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: gray; 
+}
+
 #whole-container{
     display: flex;
     justify-content: space-between;
+    width: 100vw;
+    min-width: 1320px;
 }
 #grid-nav{
     display: flex;
     flex-flow: row;
-    min-width: 1200px;
+    width: 100vw;
+    min-width: 1320px;
     height: 50px;
 }
 #grid-nav>span{
     display: flex;
-    width: 300px;
+    width: 320px;
     text-align: center;
     justify-content: center;
 }
 #navbarNavAltMarkup>div.navbar-nav{
     display: flex;
-    min-width: 900px;
+    min-width: 1000px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 #grid-nav #navbarNavAltMarkup>.navbar-nav>div{
     display: flex;
@@ -37,7 +61,8 @@
 
 #movie-container{
     background-color:#646464;
-    width:900px;
+    width: 65vw;
+    min-width: 900px;
     display: flex;
     flex-direction: column;
 
@@ -50,6 +75,9 @@
 .poster{
     width:100px;
     height:130px;
+}
+.poster:hover{
+    cursor: pointer;
 }
 .movie-title{
   margin-top: 5px;
@@ -76,30 +104,41 @@
     background-size: 500px;
 }
 #search-container{
-    width:380px;
+    width: 35vw;
+    min-width: 420px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #4B4B4B;
 }
-#search-content:hover{
-    background-color: orange;
+#search-constraint{
+    display: flex;
+    height: 15vh;
+    min-height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+#new-constraint{
+    display: flex;
+    width: 300px;
+    flex-flow: row;
+    height: 60px;
+    font-size: x-large;
+    color: white;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#new-constraint p{
+    display: flex;
+    margin: 5px 0 8px 0;
 }
 #search-input{
-    width:380px;
-    height:150px;
     display: flex;
-    background-color: #4B4B4B;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+    width: 32vw;
+    min-width: 400px;
+    flex-flow: column;
 }
-#search-option{
-    padding-top:30px;
-    display: flex; 
-    flex-direction: column;
-    background-color: #4B4B4B;
-}
+
 #input-textfield{
     width:250px;
 }

@@ -9,8 +9,10 @@ body{
   color:white;
 }
 #rightside{
-  width:680px;
-  height:723px;
+  width:50vw;
+  min-width: 600px;
+  height:100vh;
+  min-height: 700px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,14 +66,15 @@ body{
 }
 
 #poster-container{
-  width:600px;
-  height:723px;
+  width:50vw;
+  min-width: 600px;
+  height:100vh;
+  min-height: 700px;
   background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-repeat:no-repeat;
-  background-size: 600px;
   animation: 20s rainbow infinite forwards;
 }
 .large-img{
