@@ -171,7 +171,12 @@ app.controller('mainController', function($scope, $http) {
         new_item1.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
             const input_area=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }
             input_area.style.minWidth="200px";
             input_area.style.width="20vw";
             input_area.style.height="30px";
@@ -182,7 +187,12 @@ app.controller('mainController', function($scope, $http) {
         new_item2.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
             const input_area=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }
             input_area.style.minWidth="200px";
             input_area.style.width="20vw";
             input_area.style.height="30px";
@@ -193,7 +203,12 @@ app.controller('mainController', function($scope, $http) {
         new_item3.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
             const input_area=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }
             input_area.style.minWidth="200px";
             input_area.style.width="20vw";
             input_area.style.height="30px";
@@ -204,7 +219,12 @@ app.controller('mainController', function($scope, $http) {
         new_item4.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
             const input_area=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }
             input_area.style.minWidth="200px";
             input_area.style.width="20vw";
             input_area.style.height="30px";
@@ -214,40 +234,45 @@ app.controller('mainController', function($scope, $http) {
         });
         new_item5.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
-            const score_text=document.createElement("p");
-            score_text.innerHTML="Greater than ";
-            score_text.style.color="white";
-            score_text.style.margin="5px 10px 10px 20px";
             const score_input=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_text);
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_input);
-            score_input.style.minWidth="50px";
-            score_input.style.width="8vw";
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_input);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_input);
+            }
+            score_input.style.minWidth="200px";
+            score_input.style.width="20vw";
             score_input.style.height="30px";
             score_input.style.margin="5px 0 10px 20px";
-            score_input.setAttribute("placeholder","Float number");
+            score_input.setAttribute("placeholder","Input number. Results will have scores greater than that");
             score_input.style.fontSize="medium";
         });
         new_item6.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
-            const score_text=document.createElement("p");
-            score_text.innerHTML="Greater than ";
-            score_text.style.color="white";
-            score_text.style.margin="5px 10px 10px 20px";
             const score_input=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_text);
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_input);
-            score_input.style.minWidth="50px";
-            score_input.style.width="8vw";
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_input);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(score_input);
+            }
+            score_input.style.minWidth="200px";
+            score_input.style.width="20vw";
             score_input.style.height="30px";
             score_input.style.margin="5px 0 10px 20px";
-            score_input.setAttribute("placeholder","Float number");
+            score_input.setAttribute("placeholder","Input number. Results will have scores greater than that");
             score_input.style.fontSize="medium";
         });
         new_item7.addEventListener("click",function(event){
             event.currentTarget.parentElement.parentElement.firstElementChild.innerHTML=event.currentTarget.innerHTML;
             const input_area=document.createElement("textarea");
-            event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            if (event.currentTarget.parentElement.parentElement.parentElement.parentElement.childNodes.length==1){
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }else{
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.lastElementChild.remove();
+                event.currentTarget.parentElement.parentElement.parentElement.parentElement.appendChild(input_area);
+            }
             input_area.style.minWidth="200px";
             input_area.style.width="20vw";
             input_area.style.height="30px";
@@ -264,9 +289,24 @@ app.controller('mainController', function($scope, $http) {
       }
       
     $scope.search = function(){
-
+        var search_list=document.getElementById("search-input");
+        var search_input={}
+        for (index=0;index<search_list.clientHeight;index++){
+            var curr_constraint=search_list.children[index];
+            var target_value=curr_constraint.children[1].value;
+            search_input[curr_constraint.firstElementChild.firstElementChild.firstElementChild.innerHTML]=target_value;
+        }
+        $http({
+            url: '/search',
+            method: 'POST',
+            data:{
+              'input': search_input,
+              'username': username
+            }
+        }).then(
+            res =>{},
+            err =>{}
+        )
     }
-
-
   
 });

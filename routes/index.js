@@ -231,4 +231,8 @@ router.post('/reviewsList',(req, res) => {
   });
 });
 
+router.post('/search',(req,res) => {
+  
+});
+
 module.exports = router;
