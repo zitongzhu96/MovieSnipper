@@ -174,6 +174,13 @@ router.post('/goInfo/:mvid',(req, res) => {
         router.get('/InfoPage/'+username+'/::'+rtid, function (req, res) {
           res.sendFile(path.join(__dirname, '../', 'views', 'InfoPage.html'));
         });
+        connection.query(`INSERT INTO History (username, movie_id) VALUES(?,?);`, [username,rtid], (err, rows) => {
+          if (err){
+            console.log(err);
+          }else{
+            console.log("Successful Insert!");
+          }
+        });
         res.json({
           'status':'success',
           'id':rtid
@@ -215,8 +222,31 @@ router.post('/addPoster', (req, res) => {
 });
 
 router.post('/suggestList',(req, res) => {
-  var query7='SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
-  connection.query(query7, function(err, rows) {
+  const rtid=req.body.rtid;
+  var query7=`(With directors_name as (
+    select G.directors from cis550_proj.new_rotten_tomatoes_dir G
+    where G.rotten_tomatoes_link = ?)
+    SELECT movie_title, poster_image_url
+    FROM cis550_proj.new_rotten_tomatoes_dir C, directors_name D
+    where C.directors = D.directors
+    ORDER BY RAND() LIMIT 2)
+    union
+    (
+    with Given_movie as(
+        select movie_title, genre, rating
+        from cis550_proj.new_rotten_tomatoes_dir_genre G
+        where G.rotten_tomatoes_link = "/m/0814255" ),
+        All_movie as(
+        select M.movie_title, M.genre, M.rating, M.poster_image_url
+        from cis550_proj.new_rotten_tomatoes_dir_genre M),
+        Num_genre AS (
+        select COUNT(genre) as num from Given_movie)
+    select A.movie_title, A.poster_image_url
+    from Num_genre N ,Given_movie M join All_movie A on M.genre  = A.genre AND M.rating = A.rating  where M.movie_title<>A.movie_title
+    Group by A.movie_title, A.poster_image_url HAVING COUNT(A.genre)=ALL(select num from Num_genre)
+    ORDER BY RAND() LIMIT 3
+    )`
+  connection.query(query7, [rtid], function(err, rows) {
     console.log(rows);
     res.json(rows);
   });
@@ -231,8 +261,16 @@ router.post('/reviewsList',(req, res) => {
   });
 });
 
+router.get('/viewHistory',(req,res)=>{
+  var query9 = 'SELECT rtm.movie_title, rtm.poster_image_url FROM History h, rotten_tomatoes_movies rtm WHERE rtm.rotten_tomatoes_link=h.movie_id;';
+  connection.query(query9, function(err, rows) {
+    console.log(rows);
+    res.json(rows);
+  });
+});
 router.post('/search',(req,res) => {
   
 });
+
 
 module.exports = router;

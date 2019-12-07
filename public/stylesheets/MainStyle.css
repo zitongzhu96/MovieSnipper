@@ -24,13 +24,13 @@
     display: flex;
     justify-content: space-between;
     width: 100vw;
-    min-width: 1320px;
+    min-width: 1180px;
 }
 #grid-nav{
     display: flex;
     flex-flow: row;
     width: 100vw;
-    min-width: 1320px;
+    min-width: 1180px;
     height: 50px;
 }
 #grid-nav>span{
@@ -62,7 +62,7 @@
 #movie-container{
     background-color:#646464;
     width: 65vw;
-    min-width: 900px;
+    min-width: 830px;
     display: flex;
     flex-direction: column;
 
@@ -105,7 +105,7 @@
 }
 #search-container{
     width: 35vw;
-    min-width: 420px;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,7 +135,7 @@
 #search-input{
     display: flex;
     width: 32vw;
-    min-width: 400px;
+    min-width: 350px;
     flex-flow: column;
 }
 

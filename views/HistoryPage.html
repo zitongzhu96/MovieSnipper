@@ -1,37 +1,67 @@
 <!DOCTYPE html>
-<!-- <html ng-app="MyApp"> -->
-    <head>
+<html ng-app="MyApp">
+     <head>
         <meta charset="UTF-8">
-        <title>CIS550_Project</title>   
-        <link href="ListPage.css" rel="stylesheet"> 
+        <title>The Best Movie Rankings!</title> 
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link href="/stylesheets/HistoryPage.css" rel="stylesheet"> 
+        <script src="/javascripts/HistoryController.js" type="text/javascript"></script>
        
     </head>
-    <body>
+    <body ng-controller="historyController">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="grid-nav">
             <span class="navbar-brand center">
-                <i style="font-family: cursive" > Best Movie Ranking</i></span>
+                <i style="font-family: cursive" > Best Movie Ranking</i>
+            </span>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <div>
-                            <a class="nav-item nav-link" id="top-movies" href="/MainPage">
-                                <i class="fas fa-chart-line"></i> Top Movies
-                            </a>
-                            <a class="nav-item nav-link" id="search-history" href="/HistoryPage">
-                                <i class="fas fa-clipboard-list"></i> Search History
-                            </a>
-                        </div>
-                        
-                        <a class="nav-item nav-link" id="loginpage" href="/">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                <div class="navbar-nav">
+                    <div>
+                        <a class="nav-item nav-link" id="top-movies" href="/MainPage">
+                            <i class="fas fa-chart-line"></i> Top Movies
+                        </a>
+                        <a class="nav-item nav-link active" id="search-history" href="/HistoryPage">
+                            <i class="fas fa-clipboard-list"></i> Search History
                         </a>
                     </div>
+                            
+                    <a class="nav-item nav-link" id="loginpage" href="/">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </div>
+            </div>
         </nav>
+        <div id="whole-container" >
+            <div id="movie-container">
+                <p class="list-title">The Movies You Have Viewed:   </p>
+                <div class="movie-list">
+                    <div class="movie" ng-repeat="p in history">
+                        <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
+                        <center><span class="movie-title">{{p.movie_title}}</span></center>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div id="suggest-container">
+                <span> The Most Related Users to You!</span>
+                <div id="user-container">
+                    <div class="user" ng-repeat="p in people">
+                        <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
+                        <center><span class="movie-title">{{p.movie_title}}</span></center>
+                    </div>
+                </div>
+                <span>Based on your view history, we suggest: </span>
+                    <div class="movie" ng-repeat="p in suggest">
+                    <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
+                    <center><span class="movie-title">{{p.movie_title}}</span></center>
+                </div>
+            </div>
+        </div>
     </body>
+        <script src="/javascripts/StaticPage.js"></script>
 </html>

@@ -66,6 +66,9 @@ app.controller('infoController', function($scope, $http) {
    $http({
       url: '/suggestList',
       method: "POST",
+      data:{
+        'rtid':rtid,
+      },
   }).then(
       res => {
         $scope.suggest=res.data;

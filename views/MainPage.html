@@ -13,7 +13,7 @@
         <script src="/javascripts/MainController.js" type="text/javascript"></script>
        
     </head>
-    <body>
+    <body ng-controller="mainController">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="grid-nav">
             <span class="navbar-brand center">
                 <i style="font-family: cursive" > Best Movie Ranking</i>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </nav>
-        <div id="whole-container" ng-controller="mainController">
+        <div id="whole-container" >
             <div id="movie-container">
                 <p class="list-title">TOP 5 Most Popular Movies:</p>
                 <div class="movie-list">
@@ -88,4 +88,6 @@
             </div>
         </div>
     </body>
+        <script src="/javascripts/StaticPage.js"></script>
 </html>
+

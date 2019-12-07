@@ -6,7 +6,6 @@ app.controller('mainController', function($scope, $http) {
     var topMovies = document.getElementById("top-movies");
       var history = document.getElementById("search-history");
       topMovies.href=topMovies.href+ "/" + username;
-    console.log(username);
     $http({
         url: '/popularList',
         method: "POST",
@@ -291,11 +290,12 @@ app.controller('mainController', function($scope, $http) {
     $scope.search = function(){
         var search_list=document.getElementById("search-input");
         var search_input={}
-        for (index=0;index<search_list.clientHeight;index++){
+        for (index=0;index<search_list.childElementCount;index++){
             var curr_constraint=search_list.children[index];
-            var target_value=curr_constraint.children[1].value;
+            var target_value=search_list.children[index].children[1].value;
             search_input[curr_constraint.firstElementChild.firstElementChild.firstElementChild.innerHTML]=target_value;
         }
+        console.log(search_input);
         $http({
             url: '/search',
             method: 'POST',

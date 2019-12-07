@@ -28,20 +28,21 @@
 #grid-nav{
     display: flex;
     flex-flow: row;
-    min-width: 1200px;
+    width: 100vw;
+    min-width: 1180px;
     height: 50px;
 }
 #grid-nav>span{
     display: flex;
-    width: 300px;
+    width: 320px;
     text-align: center;
     justify-content: center;
 }
 #navbarNavAltMarkup>div.navbar-nav{
     display: flex;
-    min-width: 900px;
+    min-width: 1000px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 #grid-nav #navbarNavAltMarkup>.navbar-nav>div{
     display: flex;
