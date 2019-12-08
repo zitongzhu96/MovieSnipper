@@ -105,7 +105,6 @@ router.post('/popularList',(req, res) => {
     ORDER BY RAND() \
     LIMIT 5;'
   connection.query(query1, function(err, rows) {
-    console.log(rows);
     res.json(rows);
   });
 });
@@ -114,8 +113,7 @@ router.post('/ratingList',(req, res) => {
     SELECT movie_title, poster_image_url from hr ORDER BY RAND() \
     LIMIT 5;'
   // SELECT movie_title, poster_image_url FROM rotten_tomatoes_movies ORDER BY RAND() LIMIT 5;'
-  connection.query(query2, function(err, rows) {
-    console.log(rows);  
+  connection.query(query2, function(err, rows) {  
     res.json(rows);
   });
 });
@@ -129,7 +127,6 @@ router.post('/recentList',(req, res) => {
   ORDER BY RAND() \
   LIMIT 5;'
   connection.query(query3, function(err, rows) {
-    console.log(rows);
     res.json(rows);
   });
 });
@@ -144,7 +141,6 @@ router.post('/imdbHighList',(req, res) => {
   order by diff.ranks ASC \
   limit 5; '
   connection.query(query4, function(err, rows) {
-    console.log(rows);
     res.json(rows);
   });
 });
@@ -159,7 +155,6 @@ router.post('/rtHighList',(req, res) => {
   order by diff.ranks DESC \
   limit 5; '
   connection.query(query5, function(err, rows) {
-    console.log(rows);
     res.json(rows);
   });
 });
@@ -192,13 +187,10 @@ router.post('/goInfo/:mvid',(req, res) => {
       }
 
     });
-
-  // res.json({status: "success"});
 });
 
 router.post('/addPoster', (req, res) => {
   var rtid=req.body.rtid;
-  console.log(rtid);
   var get_info = 'SELECT on_streaming_date as date, movie_title, directors,rating,cast, audience_rating, cast, rating, genre, runtime_in_minutes,poster_image_url AS url FROM rotten_tomatoes_movies WHERE rotten_tomatoes_link = "' + rtid + '";';
   connection.query(get_info, function(err, result) {
     if (err) {
@@ -228,7 +220,7 @@ router.post('/suggestList',(req, res) => {
     where G.rotten_tomatoes_link = ?)
     SELECT movie_title, poster_image_url
     FROM cis550_proj.new_rotten_tomatoes_dir C, directors_name D
-    where C.directors = D.directors
+    where C.directors = D.directors AND C.rotten_tomatoes_link <> ?
     ORDER BY RAND() LIMIT 2)
     union
     (
@@ -243,11 +235,10 @@ router.post('/suggestList',(req, res) => {
         select COUNT(genre) as num from Given_movie)
     select A.movie_title, A.poster_image_url
     from Num_genre N ,Given_movie M join All_movie A on M.genre  = A.genre AND M.rating = A.rating  where M.movie_title<>A.movie_title
-    Group by A.movie_title, A.poster_image_url HAVING COUNT(A.genre)=ALL(select num from Num_genre)
+    Group by A.movie_title, A.poster_image_url HAVING COUNT(A.genre)>=ALL(select num-1 from Num_genre)
     ORDER BY RAND() LIMIT 3
     )`
-  connection.query(query7, [rtid], function(err, rows) {
-    console.log(rows);
+  connection.query(query7, [rtid, rtid], function(err, rows) {
     res.json(rows);
   });
 });
@@ -256,21 +247,86 @@ router.post('/reviewsList',(req, res) => {
   var rtid=req.body.rtid;
   var query8='SELECT critic_publication, review_content,review_date FROM rotten_tomatoes_reviews WHERE rotten_tomatoes_link="'+rtid+'" AND review_content <> "" ORDER BY review_date DESC LIMIT 5;';
   connection.query(query8, function(err, rows) {
-    console.log(rows);
     res.json(rows);
   });
 });
 
 router.get('/viewHistory',(req,res)=>{
-  var query9 = 'SELECT rtm.movie_title, rtm.poster_image_url FROM History h, rotten_tomatoes_movies rtm WHERE rtm.rotten_tomatoes_link=h.movie_id;';
-  connection.query(query9, function(err, rows) {
-    console.log(rows);
+  var username=req.query.username;
+  var query9 = 'SELECT rtm.movie_title, rtm.poster_image_url FROM History h, rotten_tomatoes_movies rtm WHERE rtm.rotten_tomatoes_link=h.movie_id AND username=?;';
+  connection.query(query9, [username],function(err, rows) {
     res.json(rows);
   });
 });
-router.post('/search',(req,res) => {
+// router.post('/search',(req,res) => {
   
+// });
+router.get('/getUser',(req,res) => {
+  const username=req.query.username;
+  var query10=`WITH my_genre AS(
+     select genre, count(*) as num
+     from new_rotten_tomatoes_dir_genre g 
+     join History uh on uh.movie_id =g.rotten_tomatoes_link
+     where uh.username = ?
+     group by genre
+     order by num DESC
+     limit 1
+    )
+    select username, count(*) as num2
+    from History uh join new_rotten_tomatoes_dir_genre g on uh.movie_id =g.rotten_tomatoes_link
+    join my_genre mg on mg.genre = g.genre
+    where username <> ?
+    group by username
+    order by num2 DESC
+    limit 1;`
+    connection.query(query10, [username,username], function(err, rows) {
+      res.json(rows[0].username);
+    });
+});
+router.get('/suggestByUser', (req,res) => {
+  const username=req.query.username;
+  console.log(username);
+  var query11=`with my_genre AS (
+   select genre, count(*) as num
+   from new_rotten_tomatoes_dir_genre g 
+   join History uh on uh.movie_id =g.rotten_tomatoes_link
+   where uh.username = ?
+   group by genre
+   order by num DESC
+   limit 1
+  ), 
+  my_b AS (select username, count(*) as num2
+  from History uh join new_rotten_tomatoes_dir_genre g on uh.movie_id =g.rotten_tomatoes_link
+  join my_genre mg on mg.genre = g.genre
+  where username <> ?
+  group by username
+  order by num2 DESC
+  limit 1), 
+  x as (select H.movie_id, R.movie_title, R.poster_image_url
+  from History H, rotten_tomatoes_movies R, my_b
+  where H.username = my_b.username AND H.movie_id = R.rotten_tomatoes_link)
+  select x.movie_title, x.poster_image_url
+  from x
+  where x.movie_id
+  NOT IN
+  (select movie_id
+  from History
+  where username = ?)
+  LIMIT 5;`;
+  connection.query(query11, [username,username,username], function(err, rows) {
+      res.json(rows);
+    });
 });
 
+router.post('/search', (req,res) => {
+  const title=req.body.title;
+  console.log(title);
+  const lastQuery = `SELECT movie_title, poster_image_url 
+  FROM rotten_tomatoes_movies WHERE movie_title = ?`;
+  connection.query(lastQuery, [title], function(err, rows) {
+      console.log(rows);
+      res.json(rows);
+    });
+});
 
 module.exports = router;

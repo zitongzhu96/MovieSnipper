@@ -12,7 +12,7 @@ body{
   width:50vw;
   min-width: 600px;
   height:100vh;
-  min-height: 700px;
+  min-height: 800px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,6 +46,7 @@ body{
     border-radius: 10px;
     background: #646464;
     color: #fff;
+    font-family: Poppins-Regular;
     cursor: pointer;
 }
 .heading > img{
@@ -58,18 +59,18 @@ body{
 }
 
 .login-container .login-button:hover {
-  background: #4B4B4B;
+  background: orange;
 }
 
 .login-container .login-button:active {
-  background: #4B4B4B;
+  background: orange;
 }
 
 #poster-container{
   width:50vw;
   min-width: 600px;
   height:100vh;
-  min-height: 700px;
+  min-height: 800px;
   background-color: black;
   display: flex;
   flex-direction: column;

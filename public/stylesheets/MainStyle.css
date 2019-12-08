@@ -79,6 +79,13 @@
 .poster:hover{
     cursor: pointer;
 }
+#search-poster{
+    width:180px;
+    height:250px;
+}
+#search-poster:hover{
+    cursor: pointer;
+}
 .movie-title{
   margin-top: 5px;
   font-family: "Gill Sans", sans-serif;
@@ -92,13 +99,19 @@
     flex-direction: column;
     align-items: center;
 }
+#searched-movie{
+    width:200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .list-title{
     margin-top: 5px;
     margin-left: 5px;
     font-size:20px;
-    color:white;
+    color:ivory;
     width:500px;
-    font-family: cursive;
+    font-family: Poppins-Regular;
    /* background-image: url(http://wallpoper.com/images/00/31/33/51/black-background_00313351.jpg);*/
     background:transparent;
     background-size: 500px;
@@ -133,10 +146,14 @@
     margin: 5px 0 8px 0;
 }
 #search-input{
+  padding-top:20px;
     display: flex;
     width: 32vw;
+    height: 150px;
     min-width: 350px;
-    flex-flow: column;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #input-textfield{
@@ -210,10 +227,27 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+#search-result{
+  padding-top:100px;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid #4B4B4B;
+}
+#searched-movie-title{
+  font-family: Poppins-Regular;
+  font-size: 30px;
+  color: ivory;
+}
 #search-content{
-    box-sizing: border-box;
-    border-radius: 10px;
-    background: #646464;
-    color: #fff;
-    cursor: pointer;
+  width:200px;
+  height:36px;
+  font-family: Poppins-Regular;
+  font-size: 20px; 
+  background-color: #ff6347;
+}
+#search-content:hover{
+  background-color: orange;
+}
+#name{
+  width: 300px;
 }

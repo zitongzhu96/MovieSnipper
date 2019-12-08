@@ -37,9 +37,9 @@
         </nav>
         <div id="whole-container" >
             <div id="movie-container">
-                <p class="list-title">The Movies You Have Viewed:   </p>
+                <p class="list-title" style="font-family: Poppins-Regular; font-size: 30px; margin:10px;" >The Movies You Have Viewed:   </p>
                 <div class="movie-list">
-                    <div class="movie" ng-repeat="p in history">
+                    <div id="movie" ng-repeat="p in history">
                         <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
                         <center><span class="movie-title">{{p.movie_title}}</span></center>
                     </div>
@@ -48,20 +48,20 @@
             
 
             <div id="suggest-container">
-                <span> The Most Related Users to You!</span>
                 <div id="user-container">
-                    <div class="user" ng-repeat="p in people">
+                <span style="color:white; font-family: cursive; font-size: 23px; margin:10px;"> The Most Related User to You is: </span>
+                <center><span id="relate" style="color:ivory; font-family: Poppins-Regular; font-size: 30px; margin:10px;"></span></center>
+                </div>
+                
+                <div id="movie-container2">
+                    <center><span style="font-family: cursive; font-size: 23px; margin:10px;">Suggest from his/her history:  </span></center><br>
+                    <div id="movie2" ng-repeat="p in suggest">
                         <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
                         <center><span class="movie-title">{{p.movie_title}}</span></center>
                     </div>
                 </div>
-                <span>Based on your view history, we suggest: </span>
-                    <div class="movie" ng-repeat="p in suggest">
-                    <img src="{{p.poster_image_url}}" class="poster" ng-click="goInfo(p.movie_title)">
-                    <center><span class="movie-title">{{p.movie_title}}</span></center>
-                </div>
             </div>
         </div>
     </body>
-        <script src="/javascripts/StaticPage.js"></script>
+        <script src="/javascripts/static3.js"></script>
 </html>

@@ -74,9 +74,21 @@
                 </div>
             </div>
             
-
             <div id="search-container">
-                <div id="search-constraint">
+                <div id="search-input">
+                    <center><span class="list-title" style="font-size:30px"> Search By Movie Title: </span></center><br>
+                    <input type="text" class="input username" placeholder="Enter Movie Title Here" ng-model="title" id="name"/><br>
+                    <button type="button" id="search-content" ng-click="search()">Search</button>
+                </div> 
+
+                <div id="search-result">
+                    <div class="searched-movie" ng-repeat="rt in searchtitle">
+                        <img src="{{rt.poster_image_url}}" id="search-poster" ng-click="goInfo(rt.movie_title)">
+                        <center><span id="searched-movie-title">{{rt.movie_title}}</span></center>
+                    </div>
+                </div>
+            </div>
+<!--                 <div id="search-constraint">
                     <a class="btn btn-info" id="new-constraint" ng-click="addConstraint()">
                         <i class="fa fa-plus-square"></i>
                         <p> Add search contents</p>
@@ -84,8 +96,8 @@
                 </div>
                 <div id="search-input">
                 </div>
-                <button type="button" id="search-content" ng-click="search()">Search</button>
-            </div>
+                <button type="button" id="search-content" ng-click="search()">Search</button> -->
+            
         </div>
     </body>
         <script src="/javascripts/StaticPage.js"></script>
