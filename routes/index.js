@@ -33,7 +33,7 @@ MongoClient.connect(url, (err, db) => {
     throw err;
   } else {
     // Create a db
-    const myDb = db.db('cis550pj');
+    const myDb = db.db('CIS550');
     console.log('Database created! Connected to the movie database.');
     // Create a collection named students
   }
@@ -149,29 +149,37 @@ router.post('/recentList',(req, res) => {
   });
 });
 router.post('/imdbHighList',(req, res) => {
-  var query4='WITH diff as \
+  var query4='with diff as\
   (select movie_title, (rtm.audience_rating - mm.vote_average*10) as ranks \
-  from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title) \
-  select distinct diff.movie_title, rtm.poster_image_url, diff.ranks \
+  from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title and mm.original_language = "en"), \
+  diff_n_rtm as\
+  (select distinct diff.movie_title, rtm.poster_image_url, diff.ranks \
   from rotten_tomatoes_movies rtm \
-  inner join movies_metadata mm on rtm.movie_title = mm.title \
-  inner join diff on diff.movie_title = rtm.movie_title \
-  order by diff.ranks ASC \
-  limit 5; '
+  inner join diff on diff.movie_title = rtm.movie_title\
+  order by diff.ranks ASC\
+  limit 5\
+  )\
+  select distinct dnr.movie_title, dnr.poster_image_url, dnr.ranks \
+  from diff_n_rtm dnr\
+  inner join movies_metadata mm on dnr.movie_title = mm.title;'
   connection.query(query4, function(err, rows) {
     res.json(rows);
   });
 });
 router.post('/rtHighList',(req, res) => {
-  var query5='WITH diff as \
+  var query5='with diff as\
   (select movie_title, (rtm.audience_rating - mm.vote_average*10) as ranks \
-  from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title) \
-  select distinct diff.movie_title, rtm.poster_image_url, diff.ranks \
+  from rotten_tomatoes_movies rtm inner join movies_metadata mm on mm.title = rtm.movie_title and mm.original_language = "en"), \
+  diff_n_rtm as\
+  (select distinct diff.movie_title, rtm.poster_image_url, diff.ranks \
   from rotten_tomatoes_movies rtm \
-  inner join movies_metadata mm on rtm.movie_title = mm.title \
-  inner join diff on diff.movie_title = rtm.movie_title \
-  order by diff.ranks DESC \
-  limit 5; '
+  inner join diff on diff.movie_title = rtm.movie_title\
+  order by diff.ranks DESC\
+  limit 5\
+  )\
+  select distinct dnr.movie_title, dnr.poster_image_url, dnr.ranks \
+  from diff_n_rtm dnr\
+  inner join movies_metadata mm on dnr.movie_title = mm.title;'
   connection.query(query5, function(err, rows) {
     res.json(rows);
   });
@@ -298,7 +306,17 @@ router.get('/getUser',(req,res) => {
     order by num2 DESC
     limit 1;`
     connection.query(query10, [username,username], function(err, rows) {
-      res.json(rows[0].username);
+      if (err) {
+        console.log(err);
+      } else {
+        if (rows.length>0){
+          res.json(rows[0].username);
+        } else {
+          res.json("");
+        }
+      }
+      
+      
     });
 });
 router.get('/suggestByUser', (req,res) => {
@@ -332,7 +350,15 @@ router.get('/suggestByUser', (req,res) => {
   where username = ?)
   LIMIT 5;`;
   connection.query(query11, [username,username,username], function(err, rows) {
-      res.json(rows);
+      if (err) {
+        console.log(err);
+      } else {
+        if (rows.length>0){
+          res.json(rows);
+        } else {
+          res.json([]);
+        }
+      }
     });
 });
 
@@ -354,7 +380,7 @@ router.get('/getIntro', (req, res) => {
       console.error(err.message);
       throw err;
     } else {
-      const myDb = db.db('cis550pj');
+      const myDb = db.db('CIS550');
       // Get movie intro
       myDb.collection('rotten_tomatoes_movies').find({rotten_tomatoes_link: rtid}, (err1, result) => {
         if (err1) {
