@@ -4,4 +4,5 @@ if (document.getElementById('grid-nav') != null) {
   const href = window.location.href.split('/');
   const username = href[href.length - 1];
   topMovies.href = `${topMovies.href}/${username}`;
+  history.href = `${history.href}/${username}`;
 }

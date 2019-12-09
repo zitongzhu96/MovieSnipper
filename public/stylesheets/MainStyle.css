@@ -101,6 +101,7 @@
 }
 #searched-movie{
     width:200px;
+    height:200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -149,11 +150,12 @@
   padding-top:20px;
     display: flex;
     width: 32vw;
-    height: 150px;
+    height: 200px;
     min-width: 350px;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    padding-bottom:20px;
 }
 
 #input-textfield{
@@ -247,6 +249,7 @@
 }
 #search-content:hover{
   background-color: orange;
+  cursor:pointer;
 }
 #name{
   width: 300px;

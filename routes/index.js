@@ -21,7 +21,25 @@ connection.connect(function(err) {
   console.log("Connection established...");
 });
 
-/* GET home page. */
+//Mongdb connection
+const MongoClient = require('mongodb').MongoClient;
+// Create a database named "students":
+const url = 'mongodb://localhost:27017/';
+
+MongoClient.connect(url, (err, db) => {
+  if (err) {
+    // error creating database
+    console.error(err.message);
+    throw err;
+  } else {
+    // Create a db
+    const myDb = db.db('cis550pj');
+    console.log('Database created! Connected to the movie database.');
+    // Create a collection named students
+  }
+});
+//_________
+
 router.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../', 'views', 'Login.html'));
 });
@@ -320,7 +338,6 @@ router.get('/suggestByUser', (req,res) => {
 
 router.post('/search', (req,res) => {
   const title=req.body.title;
-  console.log(title);
   const lastQuery = `SELECT movie_title, poster_image_url 
   FROM rotten_tomatoes_movies WHERE movie_title = ?`;
   connection.query(lastQuery, [title], function(err, rows) {
@@ -329,4 +346,32 @@ router.post('/search', (req,res) => {
     });
 });
 
+//Mongo query
+router.get('/getIntro', (req, res) => {
+  const rtid=req.query.rtid;
+  MongoClient.connect(url, (err, db) => {
+    if (err) {
+      console.error(err.message);
+      throw err;
+    } else {
+      const myDb = db.db('cis550pj');
+      // Get movie intro
+      myDb.collection('rotten_tomatoes_movies').find({rotten_tomatoes_link: rtid}, (err1, result) => {
+        if (err1) {
+          console.error(err.message);
+          throw err1;
+        }
+        result.toArray((err2, rows) => {
+          if (err2) {
+            throw err2;
+          }
+          res.json({
+            message: 'success',
+            info: rows[0].movie_info,
+          });
+        });
+      });
+    }
+  });
+  });
 module.exports = router;

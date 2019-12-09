@@ -66,6 +66,8 @@ app.controller('mainController', function($scope, $http) {
         }).then(
             res => {
               $scope.searchtitle=res.data;
+              $scope.title="";
+              document.getElementById("name").innerHTML="";
             },err => {
                 console.log("Mainpage content loading error: ", err);
         }); 

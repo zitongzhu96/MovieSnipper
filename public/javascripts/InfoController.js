@@ -76,7 +76,7 @@ app.controller('infoController', function($scope, $http) {
           console.log("Mainpage content loading error: ", err);
   });
 
-     $http({
+  $http({
       url: '/reviewsList',
       method: "POST",
       data:{
@@ -86,6 +86,19 @@ app.controller('infoController', function($scope, $http) {
   }).then(
       res => {
         $scope.reviews=res.data;
+      },err => {
+          console.log("Mainpage content loading error: ", err);
+  });
+
+  $http({
+      url: '/getIntro',
+      method: "GET",
+      params:{
+        'rtid':rtid,
+      }
+  }).then(
+      res => {
+        document.getElementById("intor").innerHTML=res.data.info;
       },err => {
           console.log("Mainpage content loading error: ", err);
   });
