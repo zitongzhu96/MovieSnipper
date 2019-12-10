@@ -22,7 +22,7 @@ Our full stack web application employed Angular.js as frontend, Node.js and expr
 - npm install → install required modules
 - node app → launch the app listening on port 8001
 - Edit routes/index.js file
---   Under `${mysql.createConnection()}` change `${user, port, password, database}` to your local database
---   Under `${MongoClient.connect()}` change `${db.db()}` to your mongoDB database
+--   Under `mysql.createConnection()` change `user, port, password, database` to your local database
+--   Under `MongoClient.connect()` change `db.db()` to your mongoDB database
 
 
