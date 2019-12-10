@@ -1,7 +1,7 @@
 # Project: Movie Snipper
 
 ##### [Final Project in CIS550]
-##### [Group Member: Chengzhuo Wang, Zhengyang Fan, Zitong Zhu, Yifeng Mao]
+##### [Group Member: Chengzhuo Wang, Zhengyang Fang, Zitong Zhu, Yifeng Mao]
 
 ### Introduction
 
