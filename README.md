@@ -17,11 +17,13 @@ Our full stack web application employed Angular.js as frontend, Node.js and expr
 
 ### Build Instructions
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `Attention: Please download the whole MySql Data from the shared google drive file. From the MySqlDataImport, there will be two files missing since over 100mb.`
+- Dump all cleaned data into MySql Workbench, remember user, port, password and database name
 - Unzip MovieSnipper.zip
-- cd MovieSnipper
+- open terminal; cd MovieSnipper
 - npm install → install required modules
 - Edit routes/index.js file 
  1. Under `mysql.createConnection()` change `user, port, password, database` to your local database 
  2. Under `MongoClient.connect()` change `db.db()` to your mongoDB database
 - node app → launch the app listening on port 8001
+- website could be accessed at http://localhost:8001/
 
