@@ -16,10 +16,13 @@ Users will login to our website and our website will store each movies they have
 Our full stack web application employed Angular.js as frontend, Node.js and express as controller, sql database as backend. We store our data in two databases. Everything except “movie_info” in “rotten_tomatoes_movies” is stored in MySQL since the relationship between rotten tomatoes dataset and IMDB dataset is well-defined. We will store movie_info in Mongo.
 
 ### Build Instructions
-
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `Attention: Please download the whole MySql Data from the shared google drive file. From the MySqlDataImport, there will be two files missing since over 100mb.`
 - Unzip MovieSnipper.zip
 - cd MovieSnipper
 - npm install → install required modules
 - node app → launch the app listening on port 8001
 - Edit routes/index.js file
+--   Under `mysql.createConnection()` change `user, port, password, database` to your local database
+--   Under `MongoClient.connect()` change `db.db()` to your mongoDB database
+
 
